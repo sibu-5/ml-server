@@ -1,0 +1,39 @@
+{
+  "dataset_id": "deepfake_image_dataset",
+  "dataset_version": "v1",
+  "source": "local",
+  "collection_date": "",
+  "labels": [
+    "real",
+    "fake"
+  ],
+  "validation_passed": true,
+  "validation_errors": [],
+  "validation_warnings": [
+    "REAL sample count (12) is low. Recommend at least 50 for reliable training.",
+    "FAKE sample count (12) is low. Recommend at least 50 for reliable training."
+  ],
+  "feature": "deepfake",
+  "modality": "image",
+  "real_total_files": 13,
+  "fake_total_files": 13,
+  "real_valid": 12,
+  "fake_valid": 12,
+  "real_corrupt": 0,
+  "fake_corrupt": 0,
+  "real_unsupported": 1,
+  "fake_unsupported": 1,
+  "real_rejected_files": [
+    ".gitkeep: unsupported extension ''"
+  ],
+  "fake_rejected_files": [
+    ".gitkeep: unsupported extension ''"
+  ],
+  "real_duplicates": 0,
+  "fake_duplicates": 0,
+  "class_imbalance_ratio": 1.0,
+  "total_valid": 24,
+  "real_percentage": 50.0,
+  "fake_percentage": 50.0,
+  "cross_class_duplicates": 0
+}

@@ -1,0 +1,141 @@
+<USER_REQUEST>
+You are working on an EXISTING production-style ML Server.
+
+The ML Server already contains a working Phishing ML architecture with:
+- Models
+- Raw data
+- Processed/training data
+- Training
+- Inference
+- APIs
+- Model management
+- Existing dataset/model workflow
+
+Your task is to professionally ADD a complete Deepfake ML pipeline into this EXISTING ML Server.
+
+IMPORTANT:
+Do NOT rebuild the ML server.
+Do NOT create a second server.
+Do NOT create a second port.
+Do NOT create a separate application.
+Do NOT break or modify existing Phishing functionality.
+
+Deepfake must become a first-class ML feature inside the existing ML Server and must follow the same architectural principles as Phishing.
+
+The implementation must also establish a reusable architecture that future ML features can follow.
+
+============================================================
+1. PRIMARY OBJECTIVE
+============================================================
+
+Implement a complete Deepfake Image ML lifecycle:
+
+RAW DATA
+   ↓
+DATASET VALIDATION
+   ↓
+DATASET REGISTRATION
+   ↓
+PREPROCESSING
+   ↓
+TRAIN-READY DATA
+   ↓
+TRAIN / VALIDATION / TEST SPLIT
+   ↓
+TRAINING
+   ↓
+MODEL EVALUATION
+   ↓
+GENERATE ML REPORT
+   ↓
+MODEL COMPARISON
+   ↓
+MODEL APPROVAL / REJECTION
+   ↓
+MODEL REGISTRY
+   ↓
+PRODUCTION MODEL
+   ↓
+INFERENCE API
+
+The pipeline must be robust enough that a developer can later add:
+
+- Deepfake Video
+- Deepfake Audio
+- Deepfake Video Call
+- Multimodal Deepfake
+- Malware Detection
+- Fraud Detection
+- Spam Detection
+- Other future ML models
+
+without redesigning the entire ML server.
+
+============================================================
+2. EXISTING DEEPFAKE MODEL
+============================================================
+
+The Deepfake model already exists.
+
+The uploaded Deepfake project contains:
+
+- deepfake_model_v4.pth
+- face_detection_yunet_2023mar.onnx
+- DualBranchResNet architecture
+- Deepfake inference code
+- Da
+<truncated 20618 bytes>
+────────┐
+                    │ Human ML Review  │
+                    └────────┬─────────┘
+                             │
+                     APPROVE / REJECT
+                             │
+                     MODEL PROMOTION
+                             │
+                         PRODUCTION
+                             │
+                         INFERENCE
+
+FINAL REQUIREMENT:
+
+Before modifying files, inspect the existing ML Server and understand its current Phishing architecture.
+
+Reuse existing infrastructure wherever possible.
+
+Do not create duplicate systems merely because Deepfake is being added.
+
+Implement Deepfake as the first additional feature following the generalized architecture.
+
+After implementation, provide:
+
+1. Final folder structure
+2. Files created
+3. Files modified
+4. Deepfake data flow
+5. Training flow
+6. Report flow
+7. Model versioning flow
+8. Model approval/promotion flow
+9. API endpoints
+10. Example dataset manifest
+11. Example training command/API
+12. Example report
+13. Example model registry entry
+14. Test results
+15. Instructions for adding Deepfake V5/V6
+16. Instructions for adding a completely new ML feature in the future
+17. Confirmation that existing Phishing APIs and models remain functional
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-10-09T03:09:36+05:30.
+
+The user's current state is as follows:
+Active Document: c:\Users\Sibu\OneDrive\Desktop\ML-Server\ml-server\app\features\ssl.py (LANGUAGE_PYTHON)
+Cursor is on line: 26
+Other open documents:
+- c:\Users\Sibu\OneDrive\Desktop\ML-Server\ml-server\app\features\ssl.py (LANGUAGE_PYTHON)
+</ADDITIONAL_METADATA>
+<USER_SETTINGS_CHANGE>
+The user changed setting `Model Selection` from None to Claude Sonnet 4.6 (Thinking). No need to comment on this change if the user doesn't ask about it. If reporting what model you are, please use a human readable name instead of the exact string.
+</USER_SETTINGS_CHANGE>

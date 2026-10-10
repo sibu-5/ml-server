@@ -1,0 +1,1117 @@
+<USER_REQUEST>
+You are working on an EXISTING production-style ML Server.
+
+The ML Server already contains a working Phishing ML architecture with:
+- Models
+- Raw data
+- Processed/training data
+- Training
+- Inference
+- APIs
+- Model management
+- Existing dataset/model workflow
+
+Your task is to professionally ADD a complete Deepfake ML pipeline into this EXISTING ML Server.
+
+IMPORTANT:
+Do NOT rebuild the ML server.
+Do NOT create a second server.
+Do NOT create a second port.
+Do NOT create a separate application.
+Do NOT break or modify existing Phishing functionality.
+
+Deepfake must become a first-class ML feature inside the existing ML Server and must follow the same architectural principles as Phishing.
+
+The implementation must also establish a reusable architecture that future ML features can follow.
+
+============================================================
+1. PRIMARY OBJECTIVE
+============================================================
+
+Implement a complete Deepfake Image ML lifecycle:
+
+RAW DATA
+   ↓
+DATASET VALIDATION
+   ↓
+DATASET REGISTRATION
+   ↓
+PREPROCESSING
+   ↓
+TRAIN-READY DATA
+   ↓
+TRAIN / VALIDATION / TEST SPLIT
+   ↓
+TRAINING
+   ↓
+MODEL EVALUATION
+   ↓
+GENERATE ML REPORT
+   ↓
+MODEL COMPARISON
+   ↓
+MODEL APPROVAL / REJECTION
+   ↓
+MODEL REGISTRY
+   ↓
+PRODUCTION MODEL
+   ↓
+INFERENCE API
+
+The pipeline must be robust enough that a developer can later add:
+
+- Deepfake Video
+- Deepfake Audio
+- Deepfake Video Call
+- Multimodal Deepfake
+- Malware Detection
+- Fraud Detection
+- Spam Detection
+- Other future ML models
+
+without redesigning the entire ML server.
+
+============================================================
+2. EXISTING DEEPFAKE MODEL
+============================================================
+
+The Deepfake model already exists.
+
+The uploaded Deepfake project contains:
+
+- deepfake_model_v4.pth
+- face_detection_yunet_2023mar.onnx
+- DualBranchResNet architecture
+- Deepfake inference code
+- Dataset preparation/training code
+
+Integrate the existing model into the ML Server.
+
+DO NOT rewrite the model architecture unnecessarily.
+
+The current Deepfake model is conceptually:
+
+INPUT IMAGE
+     │
+     ├──────────────► GLOBAL IMAGE BRANCH
+     │
+     ▼
+   YuNet
+     │
+     ▼
+  FACE CROP
+     │
+     ▼
+    FACE BRANCH
+     │
+     └──────────────┐
+                    ▼
+                CLASSIFIER
+                    │
+              REAL / FAKE
+
+Store the production model under:
+
+models/deepfake/image/v4/
+
+For example:
+
+models/deepfake/image/v4/
+├── deepfake_model_v4.pth
+└── face_detection_yunet_2023mar.onnx
+
+The exact filenames may be adapted to the existing project conventions.
+
+============================================================
+3. CENTRAL MODEL ARCHITECTURE
+============================================================
+
+Keep one central models directory.
+
+Example:
+
+models/
+│
+├── phishing/
+│   ├── url/
+│   └── email/
+│
+├── deepfake/
+│   ├── image/
+│   │   └── v4/
+│   ├── video/
+│   ├── audio/
+│   ├── video_call/
+│   └── multimodal/
+│
+└── future/
+```
+
+Each model must support versioning.
+
+Example:
+
+models/deepfake/image/
+├── v4/
+├── v5/
+└── v6/
+
+Never overwrite a previously registered model version.
+
+============================================================
+4. CENTRAL DATA ARCHITECTURE
+============================================================
+
+Extend the existing data system.
+
+Use:
+
+data/
+│
+├── raw/
+│   ├── phishing/
+│   └── deepfake/
+│       ├── image/
+│       │   ├── real/
+│       │   └── fake/
+│       ├── video/
+│       ├── audio/
+│       └── video_call/
+│
+├── processed/
+│   ├── phishing/
+│   └── deepfake/
+│       ├── image/
+│       ├── video/
+│       ├── audio/
+│       └── video_call/
+│
+├── trained/
+│   ├── phishing/
+│   └── deepfake/
+│       ├── image/
+│       ├── video/
+│       ├── audio/
+│       └── video_call/
+│
+└── validation/
+    ├── phishing/
+    └── deepfake/
+        ├── image/
+        ├── video/
+        ├── audio/
+        └── video_call/
+
+RAW DATA MUST NEVER BE MODIFIED.
+
+Processed and training data are derived artifacts.
+
+============================================================
+5. DATASET ROUTING
+============================================================
+
+Implement a dataset-aware routing system.
+
+Every dataset must have:
+
+- feature
+- modality
+- task
+- labels
+- dataset ID
+- version
+- source
+- creation date
+- validation status
+
+Example:
+
+dataset_manifest.yaml
+
+dataset_id: deepfake_image_001
+feature: deepfake
+modality: image
+task: binary_classification
+
+labels:
+  - real
+  - fake
+
+target_model: deepfake_image
+
+This metadata determines the pipeline.
+
+Example:
+
+deepfake + image
+       ↓
+Deepfake Image Pipeline
+
+deepfake + video
+       ↓
+Deepfake Video Pipeline
+
+phishing + url
+       ↓
+Phishing URL Pipeline
+
+The system MUST NOT send Deepfake Image data to a Phishing model or Deepfake Audio model.
+
+============================================================
+6. RAW DATA VALIDATION
+============================================================
+
+Before preprocessing, validate the dataset.
+
+For Deepfake Image:
+
+Check:
+
+- file existence
+- supported image formats
+- corrupt images
+- unreadable images
+- duplicate files
+- missing labels
+- invalid directory structure
+- class distribution
+- minimum dataset size
+- image dimensions
+- suspicious files
+- train/validation/test leakage where possible
+
+Generate a validation result.
+
+If validation fails:
+
+DO NOT TRAIN.
+
+Instead:
+
+1. Stop the pipeline.
+2. Generate a report.
+3. Store the report under the Deepfake report directory.
+4. Explain exactly what failed.
+
+============================================================
+7. DEEPFAKE IMAGE PREPROCESSING
+============================================================
+
+Implement preprocessing specifically for the existing Deepfake V4 architecture.
+
+Pipeline:
+
+RAW IMAGE
+   ↓
+Image validation
+   ↓
+Image loading
+   ↓
+Image normalization
+   ↓
+Face detection using YuNet
+   ↓
+Face crop
+   ↓
+Global image preparation
+   ↓
+Face image preparation
+   ↓
+Dataset split
+   ↓
+TRAIN-READY DATA
+
+IMPORTANT:
+
+The current V4 training implementation must be reviewed for consistency between training and inference.
+
+Training must use:
+
+image
+ ├── global image
+ │
+ └── YuNet → face crop
+
+The face branch must receive the actual detected face crop, not simply the original full image.
+
+The preprocessing used during training must match inference preprocessing as closely as appropriate.
+
+============================================================
+8. TRAIN / VALIDATION / TEST SPLIT
+============================================================
+
+Automatically create:
+
+data/trained/deepfake/image/<dataset_version>/
+
+with:
+
+train/
+validation/
+test/
+
+Maintain class balance where appropriate.
+
+Avoid data leakage.
+
+Keep dataset statistics in the report.
+
+Record:
+
+- total images
+- real images
+- fake images
+- training count
+- validation count
+- test count
+- class percentages
+- rejected files
+
+============================================================
+9. AUTOMATIC TRAINING
+============================================================
+
+When a valid dataset is approved for training:
+
+RAW
+ ↓
+VALIDATE
+ ↓
+PREPROCESS
+ ↓
+SPLIT
+ ↓
+TRAIN
+ ↓
+EVALUATE
+
+Training must NOT overwrite the current production model.
+
+Instead create a candidate version.
+
+Example:
+
+Current:
+deepfake_image_v4
+
+New candidate:
+deepfake_image_v5
+
+Store:
+
+models/deepfake/image/v5/
+
+The training job must record:
+
+- dataset version
+- model version
+- training configuration
+- hyperparameters
+- random seed
+- framework version
+- Python version
+- GPU/CPU information where available
+- training duration
+- epoch information
+- checkpoint information
+
+============================================================
+10. MODEL EVALUATION
+============================================================
+
+Every newly trained model must be evaluated before production.
+
+For binary Deepfake classification calculate where applicable:
+
+- Accuracy
+- Precision
+- Recall
+- F1 score
+- ROC-AUC
+- Confusion Matrix
+- False Positive Rate
+- False Negative Rate
+
+Also calculate class-specific metrics:
+
+REAL:
+- precision
+- recall
+- F1
+
+FAKE:
+- precision
+- recall
+- F1
+
+Do not rely only on accuracy.
+
+============================================================
+11. MODEL COMPARISON
+============================================================
+
+Compare candidate model against the current production model.
+
+Example:
+
+CURRENT PRODUCTION
+deepfake_image_v4
+
+CANDIDATE
+deepfake_image_v5
+
+Compare:
+
+Accuracy
+Precision
+Recall
+F1
+ROC-AUC
+False Positive Rate
+False Negative Rate
+
+The report must clearly state:
+
+BETTER
+WORSE
+SIMILAR
+NOT ENOUGH EVIDENCE
+
+Do not automatically promote a model merely because one metric improved.
+
+============================================================
+12. REPORTING SYSTEM
+============================================================
+
+Create a CENTRAL report architecture.
+
+Example:
+
+reports/
+│
+├── phishing/
+│   ├── datasets/
+│   ├── training/
+│   ├── evaluation/
+│   └── models/
+│
+├── deepfake/
+│   ├── image/
+│   │   ├── datasets/
+│   │   ├── preprocessing/
+│   │   ├── training/
+│   │   ├── evaluation/
+│   │   └── models/
+│   │
+│   ├── video/
+│   ├── audio/
+│   ├── video_call/
+│   └── multimodal/
+│
+└── future/
+
+The same report architecture must be usable by every ML feature.
+
+============================================================
+13. DEEPFAKE REPORT
+============================================================
+
+Every Deepfake dataset/training/evaluation run should generate a report.
+
+Example:
+
+reports/deepfake/image/training/
+
+deepfake_image_v5_2026-10-09/
+├── report.json
+├── report.md
+├── metrics.json
+├── confusion_matrix.png
+├── roc_curve.png
+├── training_history.png
+├── dataset_summary.json
+└── model_comparison.json
+
+Use JSON for machine-readable information.
+
+Use Markdown/HTML for human-readable reports.
+
+Charts should be generated where appropriate.
+
+============================================================
+14. REPORT CONTENT
+============================================================
+
+The Deepfake report must contain:
+
+A. Dataset Information
+
+- Dataset ID
+- Dataset version
+- Source
+- Collection date
+- Number of files
+- Number of valid files
+- Number of rejected files
+- Real count
+- Fake count
+- Class balance
+
+B. Preprocessing
+
+- preprocessing version
+- image dimensions
+- normalization
+- face detection method
+- number of images where face was detected
+- number of images where face was not detected
+
+C. Training
+
+- model name
+- model version
+- architecture
+- framework
+- epochs
+- batch size
+- learning rate
+- optimizer
+- scheduler
+- seed
+- training duration
+- hardware
+
+D. Evaluation
+
+- Accuracy
+- Precision
+- Recall
+- F1
+- ROC-AUC
+- FPR
+- FNR
+- confusion matrix
+
+E. Model Comparison
+
+Current model:
+v4
+
+Candidate:
+v5
+
+Show metric-by-metric comparison.
+
+F. Recommendation
+
+The report must produce one of:
+
+READY_FOR_TESTING
+READY_FOR_PRODUCTION
+NEEDS_IMPROVEMENT
+REJECTED
+FAILED_VALIDATION
+
+============================================================
+15. HUMAN DECISION BEFORE PRODUCTION
+============================================================
+
+The report system exists so the ML engineer can inspect the result before promotion.
+
+The pipeline should support:
+
+TRAIN
+ ↓
+REPORT
+ ↓
+ENGINEER REVIEWS REPORT
+ ↓
+APPROVE / REJECT
+ ↓
+PROMOTE MODEL
+
+Do not automatically replace production models unless the existing project explicitly supports automatic promotion.
+
+Default behavior should be:
+
+TRAIN → REPORT → WAIT FOR APPROVAL
+
+This is safer.
+
+============================================================
+16. MODEL REGISTRY
+============================================================
+
+Extend the existing model registry.
+
+Each model record should contain:
+
+{
+    "model_id": "deepfake_image",
+    "version": "v5",
+    "feature": "deepfake",
+    "modality": "image",
+    "framework": "pytorch",
+    "artifact_path": "...",
+    "dataset_id": "...",
+    "dataset_version": "...",
+    "metrics": {},
+    "status": "candidate",
+    "report_path": "...",
+    "created_at": "...",
+    "approved_at": null
+}
+
+Possible statuses:
+
+- development
+- candidate
+- testing
+- approved
+- production
+- rejected
+- archived
+
+============================================================
+17. MODEL PROMOTION
+============================================================
+
+Promotion should work like:
+
+v4
+ ↓
+production
+
+v5
+ ↓
+candidate
+ ↓
+evaluation
+ ↓
+report
+ ↓
+human approval
+ ↓
+approved
+ ↓
+production
+
+When v5 becomes production:
+
+v4 → archived
+v5 → production
+
+Never delete v4.
+
+Rollback must be possible:
+
+v5 → production
+v4 → archived
+
+If v5 fails in production:
+
+v4 can be restored.
+
+============================================================
+18. INFERENCE
+============================================================
+
+The production API must use the model registry.
+
+Endpoint:
+
+POST /api/v1/deepfake/image
+
+The API should load/use the model currently marked:
+
+status = production
+
+Do not hard-code:
+
+deepfake_model_v4.pth
+
+inside the API.
+
+The registry determines the active model.
+
+Example response:
+
+{
+    "feature": "deepfake",
+    "media_type": "image",
+    "prediction": "FAKE",
+    "confidence": 0.94,
+    "fake_probability": 0.94,
+    "real_probability": 0.06,
+    "face_detected": true,
+    "model": "deepfake_image",
+    "model_version": "v5"
+}
+
+Follow the existing ML server's response conventions where applicable.
+
+============================================================
+19. PIPELINE ORCHESTRATOR
+============================================================
+
+Create/reuse a central pipeline orchestrator.
+
+Conceptually:
+
+Dataset
+   ↓
+Dataset Router
+   ↓
+Validator
+   ↓
+Preprocessor
+   ↓
+Trainer
+   ↓
+Evaluator
+   ↓
+Report Generator
+   ↓
+Model Registry
+   ↓
+Approval
+   ↓
+Promotion
+
+The orchestrator must be feature-aware.
+
+Example:
+
+run_pipeline(
+    feature="deepfake",
+    modality="image",
+    dataset_id="deepfake_image_001"
+)
+
+The orchestrator then automatically selects:
+
+DeepfakeImageValidator
+DeepfakeImagePreprocessor
+DeepfakeImageTrainer
+DeepfakeImageEvaluator
+DeepfakeImageReportGenerator
+
+Do not hard-code all future models into one massive conditional statement.
+
+Use a registry/plugin/strategy-style architecture so new feature pipelines can register themselves.
+
+============================================================
+20. PIPELINE JOB STATUS
+============================================================
+
+Every training pipeline must expose a job state.
+
+Example:
+
+QUEUED
+VALIDATING
+PREPROCESSING
+SPLITTING
+TRAINING
+EVALUATING
+GENERATING_REPORT
+WAITING_FOR_APPROVAL
+APPROVED
+REJECTED
+PROMOTED
+FAILED
+
+Store job metadata and logs.
+
+Example:
+
+jobs/
+└── deepfake_image_v5/
+    ├── job.json
+    └── logs/
+
+============================================================
+21. ERROR HANDLING
+============================================================
+
+The system must fail safely.
+
+Examples:
+
+Corrupt image
+→ reject file
+→ continue if allowed
+→ record in report
+
+No face detected
+→ record warning
+→ follow configured policy
+→ do not silently ignore
+
+Invalid labels
+→ stop dataset validation
+
+Too few samples
+→ stop training
+
+Training crash
+→ mark job FAILED
+→ preserve logs
+→ do not alter production model
+
+Evaluation failure
+→ mark candidate REJECTED
+
+Model loading failure
+→ production model remains unchanged
+
+============================================================
+22. FUTURE-PROOF DESIGN
+============================================================
+
+The architecture must allow:
+
+models/
+├── phishing/
+├── deepfake/
+├── malware/
+├── fraud/
+├── spam/
+└── future_feature/
+
+and:
+
+reports/
+├── phishing/
+├── deepfake/
+├── malware/
+├── fraud/
+├── spam/
+└── future_feature/
+
+Each feature gets:
+
+DATA
+MODEL
+PREPROCESSING
+TRAINING
+EVALUATION
+REPORT
+REGISTRY
+INFERENCE
+
+but all features share common infrastructure.
+
+============================================================
+23. API MANAGEMENT
+============================================================
+
+Keep one ML server IP and one port.
+
+Example:
+
+http://ML_SERVER_IP:8000
+
+Existing:
+
+/api/v1/phishing/url
+/api/v1/phishing/email
+
+New:
+
+/api/v1/deepfake/image
+
+Future:
+
+/api/v1/deepfake/video
+/api/v1/deepfake/audio
+/api/v1/deepfake/video-call
+
+Do not create additional servers or ports.
+
+============================================================
+24. PROFESSIONAL ENGINEERING REQUIREMENTS
+============================================================
+
+Use:
+
+- typed configuration where appropriate
+- structured logging
+- environment variables
+- reproducible training
+- deterministic seeds where possible
+- model versioning
+- dataset versioning
+- atomic model promotion
+- validation before training
+- evaluation before promotion
+- rollback support
+- clear error messages
+- unit tests
+- integration tests
+- API tests
+- pipeline tests
+
+Avoid:
+
+- hard-coded paths
+- hard-coded model versions
+- duplicated model loading
+- training inside API request handlers
+- overwriting production models
+- mixing raw and processed datasets
+- mixing training and inference code
+- silently ignoring preprocessing errors
+
+============================================================
+25. IMPORTANT V4 TRAINING/INFERENCE CHECK
+============================================================
+
+Before implementing the automated training pipeline, inspect the uploaded V4 code carefully.
+
+Verify the training pipeline and inference pipeline use compatible preprocessing.
+
+In particular, verify that the face branch during training receives an actual YuNet-detected face crop if the model architecture expects this.
+
+Do not blindly copy the existing training implementation if it introduces a training/inference mismatch.
+
+If a correction is necessary:
+
+- document it
+- preserve the original implementation
+- create a versioned corrected training pipeline
+- clearly identify the resulting model version
+
+============================================================
+26. TEST THE COMPLETE PIPELINE
+============================================================
+
+Create a small test dataset.
+
+Run:
+
+RAW DATA
+ ↓
+VALIDATION
+ ↓
+PREPROCESSING
+ ↓
+TRAIN-READY DATA
+ ↓
+TRAINING
+ ↓
+EVALUATION
+ ↓
+REPORT
+ ↓
+MODEL REGISTRY
+
+Verify that:
+
+1. Deepfake images are detected as Deepfake Image data.
+2. They do not enter the Phishing pipeline.
+3. They do not enter Audio/Video pipelines.
+4. Processed data is created correctly.
+5. Train/validation/test splits are created.
+6. Training starts correctly.
+7. A candidate model version is created.
+8. Evaluation runs.
+9. Report is generated.
+10. Model comparison is generated.
+11. Production model is NOT overwritten automatically.
+12. Existing Phishing functionality still works.
+13. `/api/v1/deepfake/image` works with the production model.
+14. Model rollback remains possible.
+
+============================================================
+27. FINAL ARCHITECTURE
+============================================================
+
+The final architecture should conceptually be:
+
+                         ML SERVER
+                             │
+                    ┌────────▼────────┐
+                    │   API Gateway   │
+                    └────────┬────────┘
+                             │
+          ┌──────────────────┼──────────────────┐
+          │                  │                  │
+       PHISHING           DEEPFAKE            FUTURE
+          │                  │                  │
+          ▼                  ▼                  ▼
+      Pipeline           Pipeline           Pipeline
+          │                  │                  │
+          ▼                  ▼                  ▼
+        Models             Models             Models
+          │                  │                  │
+          └──────────────────┼──────────────────┘
+                             │
+                       MODEL REGISTRY
+                             │
+                       DATA PIPELINE
+                             │
+          ┌──────────────────┼──────────────────┐
+          │                  │                  │
+         RAW             PROCESSED          TRAINED
+          │                  │                  │
+          └──────────────────┼──────────────────┘
+                             │
+                       EVALUATION
+                             │
+                         REPORTS
+                             │
+                    ┌────────▼─────────┐
+                    │ Human ML Review  │
+                    └────────┬─────────┘
+                             │
+                     APPROVE / REJECT
+                             │
+                     MODEL PROMOTION
+                             │
+                         PRODUCTION
+                             │
+                         INFERENCE
+
+FINAL REQUIREMENT:
+
+Before modifying files, inspect the existing ML Server and understand its current Phishing architecture.
+
+Reuse existing infrastructure wherever possible.
+
+Do not create duplicate systems merely because Deepfake is being added.
+
+Implement Deepfake as the first additional feature following the generalized architecture.
+
+After implementation, provide:
+
+1. Final folder structure
+2. Files created
+3. Files modified
+4. Deepfake data flow
+5. Training flow
+6. Report flow
+7. Model versioning flow
+8. Model approval/promotion flow
+9. API endpoints
+10. Example dataset manifest
+11. Example training command/API
+12. Example report
+13. Example model registry entry
+14. Test results
+15. Instructions for adding Deepfake V5/V6
+16. Instructions for adding a completely new ML feature in the future
+17. Confirmation that existing Phishing APIs and models remain functional
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-10-09T03:09:36+05:30.
+
+The user's current state is as follows:
+Active Document: c:\Users\Sibu\OneDrive\Desktop\ML-Server\ml-server\app\features\ssl.py (LANGUAGE_PYTHON)
+Cursor is on line: 26
+Other open documents:
+- c:\Users\Sibu\OneDrive\Desktop\ML-Server\ml-server\app\features\ssl.py (LANGUAGE_PYTHON)
+</ADDITIONAL_METADATA>
+<USER_SETTINGS_CHANGE>
+The user changed setting `Model Selection` from None to Claude Sonnet 4.6 (Thinking). No need to comment on this change if the user doesn't ask about it. If reporting what model you are, please use a human readable name instead of the exact string.
+</USER_SETTINGS_CHANGE>

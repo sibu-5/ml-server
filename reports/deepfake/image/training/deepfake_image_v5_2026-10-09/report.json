@@ -1,0 +1,308 @@
+{
+  "report_metadata": {
+    "generated_at": "2026-10-09T04:39:04.682573+00:00",
+    "feature": "deepfake",
+    "modality": "image",
+    "model_version": "v5",
+    "report_dir": "C:\\Users\\Sibu\\OneDrive\\Desktop\\ML-Server\\ml-server\\reports\\deepfake\\image\\training\\deepfake_image_v5_2026-10-09"
+  },
+  "A_dataset_information": {
+    "dataset_id": "deepfake_image_dataset",
+    "dataset_version": "v1",
+    "source": "local",
+    "collection_date": "",
+    "labels": [
+      "real",
+      "fake"
+    ],
+    "validation_passed": true,
+    "validation_errors": [],
+    "validation_warnings": [
+      "REAL sample count (12) is low. Recommend at least 50 for reliable training.",
+      "FAKE sample count (12) is low. Recommend at least 50 for reliable training."
+    ],
+    "feature": "deepfake",
+    "modality": "image",
+    "real_total_files": 13,
+    "fake_total_files": 13,
+    "real_valid": 12,
+    "fake_valid": 12,
+    "real_corrupt": 0,
+    "fake_corrupt": 0,
+    "real_unsupported": 1,
+    "fake_unsupported": 1,
+    "real_rejected_files": [
+      ".gitkeep: unsupported extension ''"
+    ],
+    "fake_rejected_files": [
+      ".gitkeep: unsupported extension ''"
+    ],
+    "real_duplicates": 0,
+    "fake_duplicates": 0,
+    "class_imbalance_ratio": 1.0,
+    "total_valid": 24,
+    "real_percentage": 50.0,
+    "fake_percentage": 50.0,
+    "cross_class_duplicates": 0
+  },
+  "B_preprocessing": {
+    "preprocessing_version": "v1",
+    "target_size": [
+      224,
+      224
+    ],
+    "normalization": "imagenet",
+    "mean": [
+      0.485,
+      0.456,
+      0.406
+    ],
+    "std": [
+      0.229,
+      0.224,
+      0.225
+    ],
+    "face_detection_method": "center_crop_fallback",
+    "yunet_model": "not_available",
+    "total_processed": 24,
+    "total_failed": 0,
+    "face_detected": 0,
+    "no_face_detected": 24,
+    "class_stats": {
+      "real": {
+        "total_files": 12,
+        "processed": 12,
+        "failed": 0,
+        "no_face_detected": 12
+      },
+      "fake": {
+        "total_files": 12,
+        "processed": 12,
+        "failed": 0,
+        "no_face_detected": 12
+      }
+    }
+  },
+  "C_split": {
+    "dataset_id": "deepfake_image_dataset",
+    "seed": 42,
+    "train_ratio": 0.7,
+    "val_ratio": 0.15,
+    "test_ratio": 0.15,
+    "total_samples": 24,
+    "total_train": 16,
+    "total_val": 2,
+    "total_test": 6,
+    "class_counts": {
+      "real": {
+        "total": 12,
+        "train": 8,
+        "val": 1,
+        "test": 3
+      },
+      "fake": {
+        "total": 12,
+        "train": 8,
+        "val": 1,
+        "test": 3
+      }
+    },
+    "real_count": 12,
+    "fake_count": 12,
+    "real_percentage": 50.0,
+    "fake_percentage": 50.0
+  },
+  "D_training": {
+    "model_name": "deepfake_image",
+    "model_version": "v5",
+    "architecture": "DualBranchResNet50",
+    "framework": "pytorch",
+    "framework_version": "2.14.1+cpu",
+    "python_version": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "hardware": {
+      "platform": "Windows-11-10.0.26300-SP0",
+      "processor": "Intel64 Family 6 Model 186 Stepping 2, GenuineIntel",
+      "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+      "cuda_available": false
+    },
+    "epochs": 2,
+    "batch_size": 4,
+    "learning_rate": 0.0001,
+    "weight_decay": 0.0001,
+    "optimizer": "Adam",
+    "scheduler": "CosineAnnealingLR",
+    "seed": 42,
+    "device": "cpu",
+    "dataset_id": "deepfake_image_dataset",
+    "dataset_version": "v1",
+    "train_samples": 16,
+    "val_samples": 2,
+    "best_val_accuracy": 1.0,
+    "training_duration_seconds": 19.9,
+    "history": [
+      {
+        "epoch": 1,
+        "train_loss": 0.7175,
+        "train_acc": 0.5625,
+        "val_loss": 0.6638,
+        "val_acc": 0.5
+      },
+      {
+        "epoch": 2,
+        "train_loss": 0.4291,
+        "train_acc": 0.9375,
+        "val_loss": 0.5897,
+        "val_acc": 1.0
+      }
+    ],
+    "artifact_path": "C:\\Users\\Sibu\\OneDrive\\Desktop\\ML-Server\\ml-server\\models\\deepfake\\image\\v5\\deepfake_model_v5.pth"
+  },
+  "E_evaluation": {
+    "metrics": {
+      "accuracy": 0.6667,
+      "precision": 1.0,
+      "recall": 0.3333,
+      "f1": 0.5,
+      "roc_auc": 1.0,
+      "fpr": 0.0,
+      "fnr": 0.6667,
+      "tp": 1,
+      "tn": 3,
+      "fp": 0,
+      "fn": 2,
+      "total_samples": 6,
+      "confusion_matrix": [
+        [
+          3,
+          0
+        ],
+        [
+          2,
+          1
+        ]
+      ]
+    },
+    "per_class": {
+      "real": {
+        "precision": 0.6,
+        "recall": 1.0,
+        "f1": 0.75,
+        "support": 3
+      },
+      "fake": {
+        "precision": 1.0,
+        "recall": 0.3333,
+        "f1": 0.5,
+        "support": 3
+      }
+    },
+    "confusion_matrix": [
+      [
+        3,
+        0
+      ],
+      [
+        2,
+        1
+      ]
+    ],
+    "errors": []
+  },
+  "F_model_comparison": {
+    "comparison_available": true,
+    "candidate_metrics": {
+      "accuracy": 0.6667,
+      "precision": 1.0,
+      "recall": 0.3333,
+      "f1": 0.5,
+      "roc_auc": 1.0,
+      "fpr": 0.0,
+      "fnr": 0.6667,
+      "tp": 1,
+      "tn": 3,
+      "fp": 0,
+      "fn": 2,
+      "total_samples": 6,
+      "confusion_matrix": [
+        [
+          3,
+          0
+        ],
+        [
+          2,
+          1
+        ]
+      ]
+    },
+    "production_metrics": {
+      "accuracy": 0.924,
+      "precision": 0.918,
+      "recall": 0.932,
+      "f1": 0.925,
+      "roc_auc": 0.965,
+      "fpr": 0.082,
+      "fnr": 0.068
+    },
+    "metric_deltas": {
+      "accuracy": {
+        "production": 0.924,
+        "candidate": 0.6667,
+        "delta": -0.2573,
+        "relative_change_pct": -27.85,
+        "verdict": "WORSE"
+      },
+      "f1": {
+        "production": 0.925,
+        "candidate": 0.5,
+        "delta": -0.425,
+        "relative_change_pct": -45.95,
+        "verdict": "WORSE"
+      },
+      "precision": {
+        "production": 0.918,
+        "candidate": 1.0,
+        "delta": 0.082,
+        "relative_change_pct": 8.93,
+        "verdict": "BETTER"
+      },
+      "recall": {
+        "production": 0.932,
+        "candidate": 0.3333,
+        "delta": -0.5987,
+        "relative_change_pct": -64.24,
+        "verdict": "WORSE"
+      },
+      "roc_auc": {
+        "production": 0.965,
+        "candidate": 1.0,
+        "delta": 0.035,
+        "relative_change_pct": 3.63,
+        "verdict": "BETTER"
+      }
+    },
+    "improvements": [
+      "precision",
+      "roc_auc"
+    ],
+    "regressions": [
+      "accuracy",
+      "f1",
+      "recall"
+    ],
+    "neutral": [],
+    "overall_verdict": "MIXED_WORSE"
+  },
+  "G_recommendation": {
+    "recommendation": "REJECTED",
+    "reasoning": [
+      "Accuracy: 66.7%  F1: 50.0%  AUC: 1.0000",
+      "Overall comparison vs production: MIXED_WORSE",
+      "  accuracy: 0.9240 \u2192 0.6667 (\u0394-0.2573 \u2014 WORSE)",
+      "  f1: 0.9250 \u2192 0.5000 (\u0394-0.4250 \u2014 WORSE)",
+      "  precision: 0.9180 \u2192 1.0000 (\u0394+0.0820 \u2014 BETTER)",
+      "  recall: 0.9320 \u2192 0.3333 (\u0394-0.5987 \u2014 WORSE)",
+      "  roc_auc: 0.9650 \u2192 1.0000 (\u0394+0.0350 \u2014 BETTER)",
+      "Recommendation: REJECTED"
+    ]
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "comparison_available": true,
+  "candidate_metrics": {
+    "accuracy": 0.6667,
+    "precision": 1.0,
+    "recall": 0.3333,
+    "f1": 0.5,
+    "roc_auc": 1.0,
+    "fpr": 0.0,
+    "fnr": 0.6667,
+    "tp": 1,
+    "tn": 3,
+    "fp": 0,
+    "fn": 2,
+    "total_samples": 6,
+    "confusion_matrix": [
+      [
+        3,
+        0
+      ],
+      [
+        2,
+        1
+      ]
+    ]
+  },
+  "production_metrics": {
+    "accuracy": 0.924,
+    "precision": 0.918,
+    "recall": 0.932,
+    "f1": 0.925,
+    "roc_auc": 0.965,
+    "fpr": 0.082,
+    "fnr": 0.068
+  },
+  "metric_deltas": {
+    "accuracy": {
+      "production": 0.924,
+      "candidate": 0.6667,
+      "delta": -0.2573,
+      "relative_change_pct": -27.85,
+      "verdict": "WORSE"
+    },
+    "f1": {
+      "production": 0.925,
+      "candidate": 0.5,
+      "delta": -0.425,
+      "relative_change_pct": -45.95,
+      "verdict": "WORSE"
+    },
+    "precision": {
+      "production": 0.918,
+      "candidate": 1.0,
+      "delta": 0.082,
+      "relative_change_pct": 8.93,
+      "verdict": "BETTER"
+    },
+    "recall": {
+      "production": 0.932,
+      "candidate": 0.3333,
+      "delta": -0.5987,
+      "relative_change_pct": -64.24,
+      "verdict": "WORSE"
+    },
+    "roc_auc": {
+      "production": 0.965,
+      "candidate": 1.0,
+      "delta": 0.035,
+      "relative_change_pct": 3.63,
+      "verdict": "BETTER"
+    }
+  },
+  "improvements": [
+    "precision",
+    "roc_auc"
+  ],
+  "regressions": [
+    "accuracy",
+    "f1",
+    "recall"
+  ],
+  "neutral": [],
+  "overall_verdict": "MIXED_WORSE"
+}

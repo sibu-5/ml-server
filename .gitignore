@@ -1,0 +1,26 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+.env
+*.log
+
+# Trained artifacts
+models/**/*.joblib
+models/**/*.pkl
+models/**/*.bin
+
+# Generated data
+data/**/*.parquet
+
+# Generated reports
+reports/*.json
+
+# Datasets and Processed Data
+data/
+raw_data/
+
+# ML Models
+models/
+
+

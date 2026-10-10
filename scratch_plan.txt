@@ -1,0 +1,121 @@
+46:
+Created At: 2026-10-09T03:10:36+05:30
+Completed At: 2026-10-09T03:10:37+05:30
+File Path: `file:///c:/Users/Sibu/OneDrive/Desktop/ML-Server/ml-server/app/deepfake/fusion.py`
+Total Lines: 165
+Total Bytes: 5458
+Showing lines 1 to 165
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: """
+2: Multimodal fusion engine.
+3: 
+4: Combines confidence scores from multiple independent detectors into a single
+5: aggregated risk assessment.
+6: 
+7: Design goals
+8: ------------
+9: - Detector-agnostic: works with any combination of image/video/audio/metadata scores.
+10: - Extensible: adding a new detector requires no changes to this file — just
+11:   pass an additional DetectorResult in the results list.
+12: - Configurable weights: detector weights can be set per-deployment without
+13:   redeploying code.
+14: 
+15: Usage
+16: -----
+17:     from app.deepfake.fusion import fuse, DetectorResult
+18: 
+19:     result = fuse([
+20:         DetectorResult("video", prediction="fake", confidence=0.82, weight=1.5),
+21:         DetectorResult("audio", prediction="real", confidence=0.65, weight=1.0),
+22:     ])
+23:     # → {"prediction": "fake", "confidence": 0.71, "risk_level": "high", ...}
+24: """
+25: 
+26: from __future__ import annotations
+27: 
+28: import logging
+29: from dataclasses import dataclass, field
+30: from typing import Any
+31: 
+32: from app.deepfake.preprocessing import confidence_to_risk_level, clamp
+33: 
+34: logger = logging.getLogger(__name__)
+35: 
+36: 
+37: @dataclass
+38: class DetectorResult:
+39:     """
+40:     Single-detector output for feeding into the fusion engine.
+41: 
+42:     Fields
+43:     ------
+44:     detector    : Human-readable detector name (e.g. "video", "audio").
+45:     prediction  : "fake" | "real" | "unavailable".
+46:     confidence  : Confidence in the prediction [0, 1].
+47:     weight      : Relative weight of thi
+<truncated 2635 bytes>
+            weighted_fake_prob += 0.5 * effective_weight
+116:                 total_weight += effective_weight
+117:             # else: skip — don't include in weighted average
+118:             continue
+119: 
+120:         effective_weight = r.weight
+121:         # Convert to "fake probability"
+122:         if r.prediction == "fake":
+123:             fake_prob = clamp(r.confidence)
+124:         else:
+125:             # real → fake probability is (1 - confidence)
+126:             fake_prob = clamp(1.0 - r.confidence)
+127: 
+128:         weighted_fake_prob += fake_prob * effective_weight
+129:         total_weight += effective_weight
+130: 
+131:     available = sum(1 for r in results if r.prediction != "unavailable")
+132: 
+133:     if total_weight == 0.0:
+134:         return {
+135:             "prediction": "unavailable",
+136:             "confidence": 0.0,
+137:             "risk_level": "unknown",
+138:             "detector_scores": detector_scores,
+139:             "fused_score": 0.0,
+140:             "available_detectors": 0,
+141:             "total_detectors": len(results),
+142:         }
+143: 
+144:     fused_fake_prob = clamp(weighted_fake_prob / total_weight)
+145: 
+146:     # ── Convert fused score to prediction + confidence ─────────────────────
+147:     if fused_fake_prob >= 0.5:
+148:         prediction = "fake"
+149:         confidence = fused_fake_prob
+150:     else:
+151:         prediction = "real"
+152:         confidence = 1.0 - fused_fake_prob
+153: 
+154:     risk_level = confidence_to_risk_level(confidence, prediction)
+155: 
+156:     return {
+157:         "prediction": prediction,
+158:         "confidence": round(confidence, 4),
+159:         "risk_level": risk_level,
+160:         "detector_scores": detector_scores,
+161:         "fused_score": round(fused_fake_prob, 4),
+162:         "available_detectors": available,
+163:         "total_detectors": len(results),
+164:     }
+165: 
+The above content shows the entire, complete file contents of the requested file.
+
+---
+48:
+None
+---
+50:
+Created At: 2026-10-09T03:10:43+05:30
+Completed At: 2026-10-09T03:10:47+05:30
+
+				The command exited with code 0.
+				Output:
+				Data directories created.
+
