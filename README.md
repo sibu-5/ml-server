@@ -1,4 +1,4 @@
-# CyberGuard Laptop 2 ML Server — V3
+# Threatforge ML Server — V3
 
 > **Laptop 2 is private. Do NOT expose port 8001 publicly.**
 >
