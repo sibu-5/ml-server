@@ -11,15 +11,15 @@
 ```
 Browser
   ↓
-Laptop 1 Gateway :8000  (public-facing)
+ Gateway :8000  (public-facing)
   ↓  Tailscale private network
-Laptop 2 ML Server :8001  ← THIS SERVER
+ ML Server :8001  ← THIS SERVER
   ↓
 Multi-stage security analysis
   ↓
 Structured response
   ↓
-Laptop 1 Dashboard
+Dashboard
 ```
 
 ---
@@ -323,7 +323,7 @@ A redirect from a public URL to `http://127.0.0.1:8001` is blocked.
 
 ## Security Model
 
-- Laptop 2 is private — not publicly routable.
+- ML server is private — not publicly routable.
 - Authentication: `X-API-Key` on every sensitive endpoint.
 - API keys are never logged or included in responses.
 - The LLM is separate (port 8002) and cannot make security decisions.
@@ -331,16 +331,16 @@ A redirect from a public URL to `http://127.0.0.1:8001` is blocked.
 
 ---
 
-## Laptop 1 Integration
+## Getway Integration
 
-Laptop 1 must set in its `.env`:
+Getway must set in its `.env`:
 
 ```env
-ML_URL=http://100.x.x.x:8001    # Tailscale IP of Laptop 2
-ML_API_KEY=<same secret as Laptop 2>
+ML_URL=http://100.x.x.x:8001    # Tailscale IP of MLserver ( if not public) 
+ML_API_KEY=<same secret as ML server>
 ```
 
-Laptop 1 calls:
+Getway calls:
 
 - Legacy: `POST /predict` (backward compatible)
 - V3: `POST /api/v1/analyze-url`
